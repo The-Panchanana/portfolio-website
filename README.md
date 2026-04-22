@@ -34,7 +34,7 @@ A modern, dynamic portfolio website showcasing enterprise SAP ABAP development s
 
 1. Open `index.html` in your browser
 2. Click the **⚡ Admin** button (top right)
-3. Enter password: `admin2025`
+3. Enter password: `*********`
 4. Manage projects, tickets, and team stats
 
 ## 📊 Admin Panel Features
