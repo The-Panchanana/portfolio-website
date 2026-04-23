@@ -103,14 +103,21 @@ nav.scrolled { padding: 14px 60px; }
     letter-spacing: 1px;
   }
 
-  .dts-sub {
-    font-family: var(--font-mono);
-    font-size: 0.5rem; /* Very small text */
-    text-transform: uppercase;
-    color: #FFFFFF; /* Yellow/Gold as requested */
-    letter-spacing: 0.1em;
-    margin-top: 2px;
-  }
+ .dts-sub {
+  font-family: var(--font-mono) !important;
+  font-size: 0.52rem !important; 
+  text-transform: uppercase !important;
+  
+  /* FORCE WHITE COLOR */
+  color: #FFFFFF !important; 
+  
+  /* MAKE IT BOLDER SO WHITE IS VISIBLE */
+  font-weight: 600 !important; 
+  
+  letter-spacing: 0.12em !important;
+  margin-top: 2px !important;
+  opacity: 1 !important;
+}
 }
 
 
@@ -1114,9 +1121,9 @@ footer .logo-desktop span {
 
 <!-- NAV -->
 <nav id="navbar">
- <!-- <div class="nav-logo">DashTech<span>Solutions</span></div>-->
+ <!-- <div class="nav-logo">DashTech<span> Solutions</span></div>-->
   <div class="nav-logo">
-  <div class="logo-desktop">DashTech<span>Solutions</span></div>
+  <div class="logo-desktop">DashTech<span> Solutions</span></div>
   
   <div class="logo-mobile">
     <span class="dts-main">DTS</span>
