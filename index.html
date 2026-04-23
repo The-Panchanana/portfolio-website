@@ -365,8 +365,8 @@ section { padding: 120px 60px; }
 .counter-item .num { font-family:var(--font-display);font-size:2.8rem;font-weight:700;color:var(--gold); }
 .counter-item .label { font-family:var(--font-mono);font-size:0.68rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px; }
 
-/* ── TESTIMONIALS ── */
-.testimonials-slider { position:relative;overflow:hidden; }
+/* /* ── TESTIMONIALS ── */
+/*.testimonials-slider { position:relative;overflow:hidden; }
 .testimonials-track { display:flex;transition:transform .5s cubic-bezier(.25,.46,.45,.94); }
 .testimonial-card {
   min-width:100%; padding:60px;
@@ -392,8 +392,91 @@ section { padding: 120px 60px; }
   color:var(--text);font-size:1.1rem;cursor:pointer;transition:all .25s;
   display:flex;align-items:center;justify-content:center;
 }
-.slider-btn:hover { border-color:var(--gold);color:var(--gold); }
+.slider-btn:hover { border-color:var(--gold);color:var(--gold); } */
+/* ── TESTIMONIALS ── */
+.testimonials-slider { 
+  position: relative; 
+  overflow: hidden; 
+  width: 100%; 
+}
 
+.testimonials-track { 
+  display: flex; 
+  transition: transform .6s cubic-bezier(.25,.46,.45,.94); 
+}
+
+.testimonial-card {
+  min-width: 100%; 
+  padding: 60px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  position: relative;
+  box-sizing: border-box; /* Ensures padding doesn't break 100% width */
+}
+
+/* ── NEW: READ MORE TRUNCATION ── */
+.testimonial-text {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--text);
+  margin-bottom: 12px; /* Reduced to fit button */
+  position: relative;
+  z-index: 1;
+
+  /* Line Clamping */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+/* State when expanded */
+.testimonial-text.expanded {
+  -webkit-line-clamp: unset;
+  display: block;
+}
+
+/* Read More Trigger Style */
+.testi-read-more {
+  display: inline-block;
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  margin-bottom: 24px;
+  font-weight: 600;
+  transition: opacity 0.3s;
+}
+
+.testi-read-more:hover {
+  opacity: 0.7;
+}
+
+/* ── REST OF YOUR STYLES ── */
+.quote-mark {
+  font-family: var(--font-display); font-size: 8rem; color: rgba(240,165,0,0.1);
+  line-height: 0.5; position: absolute; top: 40px; left: 40px;
+}
+
+.testimonial-author { display: flex; align-items: center; gap: 16px; margin-top: 10px; }
+.author-avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--bg); }
+.author-info .name { font-family: var(--font-ui); font-weight: 700; font-size: 0.95rem; }
+.author-info .role { font-family: var(--font-mono); font-size: 0.72rem; color: var(--gold); }
+
+.slider-controls { display: flex; gap: 12px; margin-top: 24px; }
+.slider-btn {
+  width: 44px; height: 44px; border: 1px solid var(--border); background: transparent;
+  color: var(--text); font-size: 1.1rem; cursor: pointer; transition: all .25s;
+  display: flex; align-items: center; justify-content: center;
+}
+.slider-btn:hover { border-color: var(--gold); color: var(--gold); }
+  
 /* ── CONTACT ── */
 #contact { }
 .contact-grid { display:grid;grid-template-columns:1fr 1.2fr;gap:80px; }
@@ -2101,7 +2184,11 @@ function renderSkills(){
 //   currentSlide = (currentSlide+dir+TESTIMONIALS.length)%TESTIMONIALS.length;
 //   document.getElementById('testimonialTrack').style.transform=`translateX(-${currentSlide*100}%)`;
 // }
-  function renderTestimonials() {
+
+let currentSlide = 0;
+let autoSlideTimer;
+
+function renderTestimonials() {
   const track = document.getElementById('testimonialTrack');
   if (!track) return;
 
@@ -2109,19 +2196,55 @@ function renderSkills(){
     <div class="testimonial-card">
       <div class="quote-mark">"</div>
       <div class="testimonial-text" id="testi-text-${index}">${t.text}</div>
+      <span class="testi-read-more" style="color:var(--gold); cursor:pointer; font-size:0.7rem; font-family:var(--font-mono); text-transform:uppercase;" onclick="toggleTesti(${index}, this)">Read More</span>
       
-      <span class="testi-read-more" onclick="toggleTesti(${index}, this)">Read More</span>
-
-      <div class="testimonial-author">
-        <div class="author-avatar">${t.emoji}</div>
+      <div class="testimonial-author" style="margin-top:20px; display:flex; align-items:center; gap:15px;">
+        <div class="author-avatar" style="font-size:2rem;">${t.emoji}</div>
         <div class="author-info">
-          <div class="name">${t.name}</div>
-          <div class="role">${t.role}</div>
+          <div class="name" style="font-weight:700;">${t.name}</div>
+          <div class="role" style="color:var(--gold); font-size:0.8rem;">${t.role} — ${t.company}</div>
         </div>
       </div>
     </div>
   `).join('');
+
+  startAutoSlide(); // Start the floating movement
 }
+
+function slideTestimonial(dir) {
+  const track = document.getElementById('testimonialTrack');
+  currentSlide = (currentSlide + dir + TESTIMONIALS.length) % TESTIMONIALS.length;
+  track.style.transform = `translateX(-${currentSlide * 100}%)`;
+  
+  // Reset timer when user clicks manually
+  resetAutoSlide();
+}
+
+function startAutoSlide() {
+  autoSlideTimer = setInterval(() => {
+    slideTestimonial(1);
+  }, 5000); // Changes every 5 seconds
+}
+
+function resetAutoSlide() {
+  clearInterval(autoSlideTimer);
+  startAutoSlide();
+}
+
+function toggleTesti(index, btn) {
+  const textEl = document.getElementById(`testi-text-${index}`);
+  const isExpanded = textEl.classList.toggle('expanded');
+  btn.textContent = isExpanded ? 'Read Less' : 'Read More';
+  
+  // Pause auto-slide if someone is reading
+  if(isExpanded) clearInterval(autoSlideTimer);
+  else startAutoSlide();
+}
+
+
+
+
+  
 
 // Function to handle the click
 function toggleTesti(index, btn) {
