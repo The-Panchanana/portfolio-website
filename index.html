@@ -2164,82 +2164,82 @@ function renderSkills(){
 }
 
 // ── TESTIMONIALS ──
-// function renderTestimonials(){
-//   const track = document.getElementById('testimonialTrack');
-//   track.innerHTML = TESTIMONIALS.map(t=>`
-//     <div class="testimonial-card">
-//       <div class="quote-mark">"</div>
-//       <div class="testimonial-text">${t.text}</div>
-//       <div class="testimonial-author">
-//         <div class="author-avatar">${t.emoji}</div>
-//         <div class="author-info">
-//           <div class="name">${t.name}</div>
-//           <div class="role">${t.role}</div>
-//         </div>
-//       </div>
-//     </div>
-//   `).join('');
-// }
-// function slideTestimonial(dir){
-//   currentSlide = (currentSlide+dir+TESTIMONIALS.length)%TESTIMONIALS.length;
-//   document.getElementById('testimonialTrack').style.transform=`translateX(-${currentSlide*100}%)`;
-// }
-
-let currentSlide = 0;
-let autoSlideTimer;
-
-function renderTestimonials() {
+function renderTestimonials(){
   const track = document.getElementById('testimonialTrack');
-  if (!track) return;
-
-  track.innerHTML = TESTIMONIALS.map((t, index) => `
+  track.innerHTML = TESTIMONIALS.map(t=>`
     <div class="testimonial-card">
       <div class="quote-mark">"</div>
-      <div class="testimonial-text" id="testi-text-${index}">${t.text}</div>
-      <span class="testi-read-more" style="color:var(--gold); cursor:pointer; font-size:0.7rem; font-family:var(--font-mono); text-transform:uppercase;" onclick="toggleTesti(${index}, this)">Read More</span>
-      
-      <div class="testimonial-author" style="margin-top:20px; display:flex; align-items:center; gap:15px;">
-        <div class="author-avatar" style="font-size:2rem;">${t.emoji}</div>
+      <div class="testimonial-text">${t.text}</div>
+      <div class="testimonial-author">
+        <div class="author-avatar">${t.emoji}</div>
         <div class="author-info">
-          <div class="name" style="font-weight:700;">${t.name}</div>
-          <div class="role" style="color:var(--gold); font-size:0.8rem;">${t.role} — ${t.company}</div>
+          <div class="name">${t.name}</div>
+          <div class="role">${t.role}</div>
         </div>
       </div>
     </div>
   `).join('');
-
-  startAutoSlide(); // Start the floating movement
+}
+function slideTestimonial(dir){
+  currentSlide = (currentSlide+dir+TESTIMONIALS.length)%TESTIMONIALS.length;
+  document.getElementById('testimonialTrack').style.transform=`translateX(-${currentSlide*100}%)`;
 }
 
-function slideTestimonial(dir) {
-  const track = document.getElementById('testimonialTrack');
-  currentSlide = (currentSlide + dir + TESTIMONIALS.length) % TESTIMONIALS.length;
-  track.style.transform = `translateX(-${currentSlide * 100}%)`;
+// let currentSlide = 0;
+// let autoSlideTimer;
+
+// function renderTestimonials() {
+//   const track = document.getElementById('testimonialTrack');
+//   if (!track) return;
+
+//   track.innerHTML = TESTIMONIALS.map((t, index) => `
+//     <div class="testimonial-card">
+//       <div class="quote-mark">"</div>
+//       <div class="testimonial-text" id="testi-text-${index}">${t.text}</div>
+//       <span class="testi-read-more" style="color:var(--gold); cursor:pointer; font-size:0.7rem; font-family:var(--font-mono); text-transform:uppercase;" onclick="toggleTesti(${index}, this)">Read More</span>
+      
+//       <div class="testimonial-author" style="margin-top:20px; display:flex; align-items:center; gap:15px;">
+//         <div class="author-avatar" style="font-size:2rem;">${t.emoji}</div>
+//         <div class="author-info">
+//           <div class="name" style="font-weight:700;">${t.name}</div>
+//           <div class="role" style="color:var(--gold); font-size:0.8rem;">${t.role} — ${t.company}</div>
+//         </div>
+//       </div>
+//     </div>
+//   `).join('');
+
+//   startAutoSlide(); // Start the floating movement
+// }
+
+// function slideTestimonial(dir) {
+//   const track = document.getElementById('testimonialTrack');
+//   currentSlide = (currentSlide + dir + TESTIMONIALS.length) % TESTIMONIALS.length;
+//   track.style.transform = `translateX(-${currentSlide * 100}%)`;
   
-  // Reset timer when user clicks manually
-  resetAutoSlide();
-}
+//   // Reset timer when user clicks manually
+//   resetAutoSlide();
+// }
 
-function startAutoSlide() {
-  autoSlideTimer = setInterval(() => {
-    slideTestimonial(1);
-  }, 5000); // Changes every 5 seconds
-}
+// function startAutoSlide() {
+//   autoSlideTimer = setInterval(() => {
+//     slideTestimonial(1);
+//   }, 5000); // Changes every 5 seconds
+// }
 
-function resetAutoSlide() {
-  clearInterval(autoSlideTimer);
-  startAutoSlide();
-}
+// function resetAutoSlide() {
+//   clearInterval(autoSlideTimer);
+//   startAutoSlide();
+// }
 
-function toggleTesti(index, btn) {
-  const textEl = document.getElementById(`testi-text-${index}`);
-  const isExpanded = textEl.classList.toggle('expanded');
-  btn.textContent = isExpanded ? 'Read Less' : 'Read More';
+// function toggleTesti(index, btn) {
+//   const textEl = document.getElementById(`testi-text-${index}`);
+//   const isExpanded = textEl.classList.toggle('expanded');
+//   btn.textContent = isExpanded ? 'Read Less' : 'Read More';
   
-  // Pause auto-slide if someone is reading
-  if(isExpanded) clearInterval(autoSlideTimer);
-  else startAutoSlide();
-}
+//   // Pause auto-slide if someone is reading
+//   if(isExpanded) clearInterval(autoSlideTimer);
+//   else startAutoSlide();
+// }
 
 
 
